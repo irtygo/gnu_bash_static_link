@@ -35,9 +35,28 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: configure
-      run: LDFLAGS="-static" CCFLAGS="-m32" ./configure
+      run: LDFLAGS="-static" CC="gcc -m32" ./configure
     - name: make
       run: make -j$(nproc) && mv bash bash-x86_32-linux
+    - name: Check If 32 Bit
+      run: |
+            echo "#include <stdio.h>" > /tmp/s1.c
+            echo "#include <elf.h>" >> /tmp/s1.c
+            echo "#include <string.h>" >> /tmp/s1.c
+            echo "#include <stdlib.h>" >> /tmp/s1.c
+            echo "" >> /tmp/s1.c
+            echo "int main () {" >> /tmp/s1.c
+            echo "FILE *f = fopen(\"bash-x86_32-linux\", \"r\");" >> /tmp/s1.c
+            echo "Elf64_Ehdr *e = malloc(sizeof(Elf64_Ehdr));" >> /tmp/s1.c
+            echo "fread(e, 1, sizeof(Elf64_Ehdr), f);" >> /tmp/s1.c
+            echo "if (e->e_machine != EM_386) {" >> /tmp/s1.c
+            echo "printf(\"This is not the right arch\\n\");" >> /tmp/s1.c
+            echo "return 1;" >> /tmp/s1.c
+            echo "}" >> /tmp/s1.c
+            echo "}" >> /tmp/s1.c
+            gcc /tmp/s1.c -o /tmp/s1
+            /tmp/s1
+            exit $?
     - name: upload artifact
       uses: actions/upload-artifact@v4.6.1
       with:
