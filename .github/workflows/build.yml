@@ -17,3 +17,13 @@ jobs:
       run: CCFLAGS=-static ./configure
     - name: make
       run: make
+    - name: upload artifact
+      uses: actions/upload-artifact@v4.6.1
+      with:
+         path: bash
+    - name: Upload bash to GitHub Releases
+      uses: softprops/action-gh-release@v1
+      with: 
+        files: "bash"  # This grabs the output
+        tag_name: latest
+        token: ${{ secrets.GITHUB_TOKEN }}
