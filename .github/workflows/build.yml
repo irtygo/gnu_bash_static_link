@@ -14,9 +14,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: configure
-      run: CCFLAGS=-static ./configure
+      run: LDFLAGS=-static ./configure
     - name: make
-      run: make
+      run: make -j$(nproc)
     - name: upload artifact
       uses: actions/upload-artifact@v4.6.1
       with:
