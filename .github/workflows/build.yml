@@ -34,6 +34,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Install 32-bit dependencies
+      run: |
+        sudo dpkg --add-architecture i386
+        sudo apt update
+        sudo apt install -y gcc-multilib libc6-dev-i386
     - name: configure
       run: LDFLAGS="-static" CC="gcc -m32" ./configure
     - name: make
