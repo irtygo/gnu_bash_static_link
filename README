@@ -1,6 +1,9 @@
 Introduction
 ============
 
+This is a project that takes advantage of GitHub Actions to
+compile x86_64 statically linked builds of GNU Bash 4.4
+
 This is GNU Bash, version 4.4.  Bash is the GNU Project's Bourne
 Again SHell, a complete implementation of the POSIX shell spec,
 but also with interactive command line editing, job control on
