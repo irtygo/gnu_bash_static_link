@@ -24,7 +24,7 @@ jobs:
     - name: Upload bash to GitHub Releases
       uses: softprops/action-gh-release@v1
       with: 
-        files: "bash"  # This grabs the output
+        files: "bash-x86_64-linux"  # This grabs the output
         tag_name: latest
         token: ${{ secrets.GITHUB_TOKEN }}
   build_x86_32:
@@ -42,3 +42,8 @@ jobs:
       with:
          path: bash-x86_32-linux
     - name: Upload bash to GitHub Releases
+      uses: softprops/action-gh-release@v1
+      with:   
+        files: "bash-x86_32-linux"  # This grabs the output
+        tag_name: latest
+        token: ${{ secrets.GITHUB_TOKEN }}
